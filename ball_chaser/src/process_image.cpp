@@ -49,6 +49,7 @@ void process_image_callback(const sensor_msgs::Image img)
             break;
         }
     }
+    ROS_INFO("FOUND %d", found);
     if (found == false)
         drive_robot(0,0);
 }
