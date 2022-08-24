@@ -1,6 +1,7 @@
 #include "ros/ros.h"
 #include "ball_chaser/DriveToTarget.h"
 #include <sensor_msgs/Image.h>
+#include <iostream>
 
 // Define a global client that can request services
 ros::ServiceClient client;
@@ -33,24 +34,24 @@ void process_image_callback(const sensor_msgs::Image img)
     // Then, identify if this pixel falls in the left, mid, or right side of the image
     // Depending on the white ball position, call the drive_bot function and pass velocities to it
     // Request a stop when there's no white ball seen by the camera
-    for (int i = 0; i < img.height * img.step; i+=3) {
+    ROS_INFO("new image");
+    for (int i = 0; i < img.height * img.step - 1; i+=3) {
         if (img.data[i] == white_pixel && img.data[i+1] == white_pixel && img.data[i+2] == white_pixel) {
-            location = float((i % img.step)/ img.step);
-            if (location > 0 && location < .333)
+            location = i % img.step;
+            if (location < img.step/3 ){
                 drive_robot(0.5, 1.0);
-    
-            else if (location >= .333 && location < .666)
-                drive_robot(0.5, -1.0);
-            
-            else if (location >= .666 && location < 1)
+    	    }
+            else if (location < 2*(img.step/3)){
                 drive_robot(0.5, 0.0);
-
+            }
+            else {
+                drive_robot(0.5, -1.0);
+	    }
             found = true;
             break;
         }
     }
-    ROS_INFO("FOUND %d", found);
-    if (found == false)
+    if (!found)
         drive_robot(0,0);
 }
 
@@ -60,6 +61,7 @@ int main(int argc, char** argv)
     // Initialize the process_image node and create a handle to it
     ros::init(argc, argv, "process_image");
     ros::NodeHandle n;
+    ROS_INFO("About to define client");
 
     // Define a client service capable of requesting services from command_robot
     client = n.serviceClient<ball_chaser::DriveToTarget>("/ball_chaser/command_robot");
@@ -72,3 +74,4 @@ int main(int argc, char** argv)
 
     return 0;
 }
+
