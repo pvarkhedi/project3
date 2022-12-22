@@ -8,7 +8,7 @@
     <node name="amcl" pkg="amcl" type="amcl" output="screen">
         <!-- remap from="scan" to="my_robot/laser/scan"/-->
         
-        <!-- Overall filter parameters -->
+        <!-- Overall Filter Parameters -->
         <param name="initial_pose_x" value="-3"/>
         <param name="initial_pose_y" value="3"/>
         <param name="initial_pose_a" value="-1.5707"/>
@@ -17,7 +17,7 @@
         <param name="update_min_a" value="0.01"/>
         <param name="update_min_d" value="0.03"/>
 
-        <!-- Laser model parameters -->
+        <!-- Laser Model Parameters -->
         <param name="laser_model_type" value="likelihood_field"/>
         <param name="laser_likelihood_max_dist" value="2.0"/>
         <param name="laser_min_range" value="-2.0"/>
@@ -26,7 +26,7 @@
         <param name="laser_z_hit" value="0.95"/>
         <param name="laser_z_rand" value="0.05"/>
         
-        <!-- Odometry model parameters -->
+        <!-- Odometry Model Parameters -->
         <param name="odom_alpha1" value="0.002"/>
         <param name="odom_alpha2" value="0.002"/>
         <param name="odom_alpha3" value="0.002"/>
